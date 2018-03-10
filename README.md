@@ -1,10 +1,10 @@
-# Lucy - Laravel PHP Skeleton
+# Laravel PHP Skeleton
 
 [![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
 [![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-Lucy is the skeleton backend app used at Osedea. This is currently using Laravel 5.3.
+This skeleton is currently using Laravel 5.5.
 
 It provides common functionalities to rapidly start an api based application since starting from scratch takes a long time.
 
@@ -12,7 +12,7 @@ It provides common functionalities to rapidly start an api based application sin
 
 * First, clone the project
 
-`git clone git@gitlab.com:osedea-internal/lucy.git`
+`git clone git@github.com:flightcom/laravel-api-starter.git`
 
 * Link the project to your homestead machine or laradock then run the following commands inside your project. You should also add an entry in `etc/hosts`
 
@@ -20,7 +20,7 @@ It provides common functionalities to rapidly start an api based application sin
 
 `cp .env.example .env` (modify .env and add in your database name)
 
-`php artisan key:generate && php artisan jwt:generate`
+`php artisan key:generate && php artisan jwt:secret`
 
 `php artisan migrate`
 
