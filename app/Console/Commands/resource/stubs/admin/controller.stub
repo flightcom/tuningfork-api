@@ -1,0 +1,179 @@
+<?php
+
+namespace {{namespace}};
+
+use Validator;
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+use AdminViewsManager;
+use {{manager}};
+
+use Gate;
+
+class {{name}}Controller extends Controller
+{
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('RESTpermission:{{lowUnderscoreName}}')
+            ->only(['index', 'store']);
+
+        $this->middleware('own:{{lowUnderscoreName}}')
+            ->except(['index', 'store', 'create']);
+
+        $this->middleware('permission:{{lowUnderscoreName}}_store')
+            ->only(['create']);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $perPage = $request->input('perPage');
+        $search = $request->input('search');
+
+        return view('admin.pages.{{lowName}}.index')
+            ->with(AdminViewsManager::get{{name}}($perPage, $search));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('admin.pages.{{lowName}}.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param string $field required // TODO
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'field' => 'required' // TODO
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withInput(
+                $request->all()
+            )->withErrors($validator->errors());
+        }
+
+        try {
+            {{manager}}::store($request->all());
+
+            return redirect()->route('admin.{{routeName}}.index')
+                ->with([
+                    'type' => 'success',
+                    'message' => '{{title}} created'
+                ]);
+        } catch (Exception $e) {
+            return redirect()->route('admin.{{routeName}}.create')
+                ->with([
+                    'type' => 'error',
+                    'message' => 'Error creating {{title}}'
+                ]);
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param string ${{lowUnderscoreName}} The {{lowUnderscoreName}} id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        return view('admin.pages.{{lowName}}.edit')->with([
+            '{{lowSinName}}' => {{manager}}::show($id)
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param string ${{lowUnderscoreName}} The {{lowUnderscoreName}} id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return view('admin.pages.{{lowName}}.show')
+            ->with(['{{lowSinName}}' => {{manager}}::show($id)]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param string $field required // TODO
+     * @param string ${{lowUnderscoreName}} The {{lowUnderscoreName}} id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'field' => 'required' // TODO
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withInput(
+                $request->all()
+            )->withErrors($validator->errors());
+        }
+
+        try {
+            {{manager}}::update($request->all(), $id);
+
+            return back()
+                ->with([
+                    'type' => 'success',
+                    'message' => '{{title}} updated'
+                ]);
+        } catch (Exception $e) {
+            return redirect()->route('admin.{{routeName}}.edit')
+                ->with([
+                    'type' => 'error',
+                    'message' => 'Error updating {{title}}'
+                ]);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param string ${{lowUnderscoreName}} The {{lowUnderscoreName}} id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try {
+            {{manager}}::destroy($id);
+
+            return redirect()->route('admin.{{routeName}}.index')
+                ->with([
+                    'type' => 'success',
+                    'message' => '{{title}} deleted'
+                ]);
+        } catch (Exception $e) {
+            return redirect()->route('admin.{{routeName}}.index')
+                ->with([
+                    'type' => 'error',
+                    'message' => 'Error deleting {{title}}'
+                ]);
+        }
+    }
+}

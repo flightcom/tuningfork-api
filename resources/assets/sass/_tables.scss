@@ -1,0 +1,130 @@
+table {
+    &.table.table-hover tr td { line-height: 25px; }
+    td .datatable-actions,
+    td .datatable-delete-confirmation {
+        display: flex;
+        justify-content: space-around;
+
+        a {
+            color: $grey-dark;
+            transition: color 0.25s linear;
+
+            &:hover {
+                color: $medium-blue;
+            }
+        }
+
+        .datatable-show,
+        .datatable-edit,
+        .datatable-delete,
+        .datatable-status,
+        .datatable-confirm
+        .datatable-cancel {
+            transition: color 0.25s ease-in-out;
+        }
+
+        .datatable-edit,
+        .datatable-show {
+            color: $items-info;
+
+            &:hover {
+                color: darken($items-info, 5);
+            }
+        }
+        .datatable-delete {
+            color: $items-danger;
+
+            &:hover {
+                color: darken($items-danger, 5);
+            }
+        }
+        .datatable-status {
+            color: $items-warning;
+
+            &:hover {
+                color: darken($items-warning, 5);
+            }
+        }
+        .datatable-confirm {
+            color: $items-success;
+
+            &:hover { color:
+                    darken($items-success, 5);
+            }
+        }
+        .datatable-cancel {
+            color: $items-danger;
+
+            &:hover {
+                color: darken($items-danger, 5);
+            }
+        }
+    }
+}
+
+ul.resource-filter-container {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+
+    li {
+        display: inline-block;
+        border-right: 1px solid $light-blue;
+        padding-right: 5px;
+
+        &:last-child { border-right: 0 }
+
+        a {
+            color: $dark-blue;
+            transition: color 0.25s;
+
+            &.active,
+            &:hover,
+            &:focus {
+                text-decoration: none;
+                color: $light-blue;
+            }
+
+            &.active {
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+div.secondary-actions {
+    margin-top: 15px;
+}
+
+form#per-page-form {
+    select {
+        display: inline-block;
+        width: auto;
+        height: 30px;
+        line-height: 1.5;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+    }
+}
+
+nav.pagination-container {
+    text-align: center;
+
+    .pagination > li {
+        & > span {
+            border-radius: 0;
+            color: $primary;
+        }
+
+        &.disabled span {
+            color: $medium-text-color;
+        }
+
+        &.active span {
+            background-color: $primary;
+            color: $white;
+        }
+    }
+}

@@ -1,0 +1,44 @@
+$xsmall-screen-min-width: 0px;
+$small-screen-min-width: 768px;
+$medium-screen-min-width: 992px;
+$large-screen-min-width: 1200px;
+$xlarge-screen-min-width: 1600px;
+
+@mixin respond-to($media) {
+  @if $media == small {
+    @media (min-width: $small-screen-min-width) {@content; }
+  }
+  @else if $media == medium {
+    @media (min-width: $medium-screen-min-width) { @content; }
+  }
+  @else if $media == large {
+    @media (min-width: $large-screen-min-width) { @content; }
+  }
+  @else if $media == xlarge {
+    @media (min-width: $xlarge-screen-min-width) { @content; }
+  }
+}
+
+.hide-table-xs {
+    display: none;
+
+    @include respond-to(small) {
+        display: table-cell;
+    }
+}
+
+.hide-table-sm {
+    display: none;
+
+    @include respond-to(medium) {
+        display: table-cell;
+    }
+}
+
+.hide-table-md {
+    display: none;
+
+    @include respond-to(medium) {
+        display: table-cell;
+    }
+}

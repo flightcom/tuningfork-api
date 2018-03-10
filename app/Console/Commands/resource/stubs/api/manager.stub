@@ -1,0 +1,77 @@
+<?php
+
+namespace Managers\{{name}};
+
+use Models\{{model}};
+use Auth;
+
+class {{name}}Manager
+{
+    /*
+    |--------------------------------------------------------------------------
+    | {{name}}Manager
+    |--------------------------------------------------------------------------
+    |
+    | The {{name}}Manager is simply the business logic between the controller and
+    | the model.
+    |
+    */
+
+    /**
+     * @return mixed
+     */
+    public function query()
+    {
+        return {{model}}::paginate();
+    }
+
+    /**
+     * @param array $data
+     * @return static
+     */
+    public function store(array $data)
+    {
+        return {{model}}::create([
+            // TODO Add the fields that are required
+            'user_id' => Auth::getUser()->id,
+            'field' => $data['field'],
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function show($id)
+    {
+        return {{model}}::find($id);
+    }
+
+    /**
+     * @param array $data
+     * @param $id
+     * @return mixed
+     */
+    public function update(array $data, $id)
+    {
+        ${{lowSinName}} = {{model}}::find($id);
+
+        if (!${{lowSinName}}) {
+            return ${{lowSinName}};
+        }
+
+        // TODO Change the fields that need to be updated
+        ${{lowSinName}}->field = $data['field'];
+
+        return ${{lowSinName}}->save();
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function destroy($id)
+    {
+        return {{model}}::destroy($id);
+    }
+}

@@ -1,0 +1,1 @@
+Showing {{ $data->firstItem() }} to {{ $data->lastItem() }} of {{ $data->total() }} entries

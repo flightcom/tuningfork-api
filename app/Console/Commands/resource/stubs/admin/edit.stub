@@ -1,0 +1,38 @@
+@extends('layouts.admin', [
+    'page_title' => '{{title}}',
+    'page_description' => 'Edit',
+    'breadcrums' => [
+        [
+            'url' => route('admin.{{routeName}}.index'),
+            'name' => '{{title}}',
+            'icon' => 'ion ion-bug',
+        ], [
+            'name' => 'Edit',
+            'active' => true,
+        ],
+    ]
+])
+
+@section('content')
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">Edit {{title}}</h3>
+        </div>
+
+        {!! Form::open(array(
+            'url' => route('admin.{{routeName}}.update', ${{lowSinName}}->id),
+            'method' => 'PUT',
+        )) !!}
+        <div class="box-body profile-form">
+
+            @include('admin.pages.{{lowName}}._form', [
+                '{{lowSinName}}' => ${{lowSinName}},
+                'requiredPermission' => '{{lowUnderscoreName}}_update',
+                'submitText' => 'Update {{title}}'
+            ])
+
+        </div>
+        {!! Form::close() !!}
+    </div>
+@endsection
+

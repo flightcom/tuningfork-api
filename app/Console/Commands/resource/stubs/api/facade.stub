@@ -1,0 +1,18 @@
+<?php
+
+namespace Managers\{{name}};
+
+use Illuminate\Support\Facades\Facade;
+
+class {{manager}}Facade extends Facade
+{
+    /**
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor()
+    {
+        return {{manager}}::class;
+    }
+}
