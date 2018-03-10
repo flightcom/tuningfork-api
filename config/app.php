@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -136,7 +135,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -167,8 +165,6 @@ return [
          * Package Service Providers...
          */
 
-        //
-
         /*
          * Application Service Providers...
          */
@@ -181,12 +177,11 @@ return [
         /*
          * Added Service Providers...
          */
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
-        F2m2\Apidocs\ApidocsServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        // F2m2\Apidocs\ApidocsServiceProvider::class,
         Davibennun\LaravelPushNotification\LaravelPushNotificationServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
-
     ],
 
     /*
@@ -201,7 +196,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
@@ -258,9 +252,7 @@ return [
         'AdminViewsManager' => Managers\Views\AdminViewsManagerFacade::class,
         'ErrorsManager' => Managers\System\ErrorsManagerFacade::class,
         'ActionLogsManager' => Managers\System\ActionLogsManagerFacade::class,
-		'PostsManager' => Managers\Posts\PostsManagerFacade::class,
-		// END OF APP ALIASES - DO NOT REMOVE/MODIFY THIS COMMENT
-
+        'PostsManager' => Managers\Posts\PostsManagerFacade::class,
+        // END OF APP ALIASES - DO NOT REMOVE/MODIFY THIS COMMENT
     ],
-
 ];

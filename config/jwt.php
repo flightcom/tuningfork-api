@@ -10,7 +10,6 @@
  */
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | JWT Authentication Secret
@@ -21,7 +20,7 @@ return [
     |
     */
 
-    'secret' => env('JWT_SECRET', '0fwFEmS0HqMQK3WW6A5MDwuxYtUiHllP'),
+    'secret' => env('JWT_SECRET', 'koMFssLNqS1lRogzAkHS2olQJaFreC9s'),
 
     /*
     |--------------------------------------------------------------------------
@@ -122,7 +121,6 @@ return [
     */
 
     'providers' => [
-
         /*
         |--------------------------------------------------------------------------
         | User Provider
@@ -133,7 +131,7 @@ return [
         |
         */
 
-        'user' => 'Tymon\JWTAuth\Providers\User\EloquentUserAdapter',
+        'user' => 'Tymon\JWTAuth\Providers\Auth\Illuminate',
 
         /*
         |--------------------------------------------------------------------------
@@ -144,7 +142,7 @@ return [
         |
         */
 
-        'jwt' => 'Tymon\JWTAuth\Providers\JWT\NamshiAdapter',
+        'jwt' => 'Tymon\JWTAuth\Providers\JWT\Namshi',
 
         /*
         |--------------------------------------------------------------------------
@@ -155,7 +153,7 @@ return [
         |
         */
 
-        'auth' => 'Tymon\JWTAuth\Providers\Auth\IlluminateAuthAdapter',
+        'auth' => 'Tymon\JWTAuth\Providers\Auth\Illuminate',
 
         /*
         |--------------------------------------------------------------------------
@@ -166,8 +164,6 @@ return [
         |
         */
 
-        'storage' => 'Tymon\JWTAuth\Providers\Storage\IlluminateCacheAdapter',
-
+        'storage' => 'Tymon\JWTAuth\Providers\Storage\Illuminate',
     ],
-
 ];
