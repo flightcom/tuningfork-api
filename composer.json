@@ -7,7 +7,7 @@
     "require": {
         "php": "7.2",
         "laravel/framework": "5.5.37",
-        "tymon/jwt-auth": "dev-develop",
+        "tymon/jwt-auth": "1.0.0-rc.2",
         "laravelcollective/html": "5.5.*",
         "davibennun/laravel-push-notification": "dev-laravel5",
         "doctrine/dbal": "~2.5",
