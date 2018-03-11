@@ -177,7 +177,6 @@ return [
         /*
          * Added Service Providers...
          */
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         // F2m2\Apidocs\ApidocsServiceProvider::class,
         Davibennun\LaravelPushNotification\LaravelPushNotificationServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
@@ -232,7 +231,6 @@ return [
         /*
          * Added Aliases...
          */
-        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Uuid' => Webpatser\Uuid\Uuid::class,
