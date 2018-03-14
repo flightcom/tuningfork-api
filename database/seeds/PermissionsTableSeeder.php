@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
 use Models\Permission;
 use Models\Role;
 
@@ -9,8 +8,6 @@ class PermissionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -18,57 +15,85 @@ class PermissionsTableSeeder extends Seeder
 
         $permissions[] = Permission::create([
             'slug' => 'backend_access',
-            'label' => 'Backend Access'
+            'label' => 'Backend Access',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'permission_index',
-            'label' => 'Permission Query'
+            'label' => 'Permission Query',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'permission_store',
-            'label' => 'Permission Create'
+            'label' => 'Permission Create',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'permission_update',
-            'label' => 'Permission Update'
+            'label' => 'Permission Update',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'permission_destroy',
-            'label' => 'Permission Delete'
+            'label' => 'Permission Delete',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'role_index',
-            'label' => 'Role Query'
+            'label' => 'Role Query',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'role_store',
-            'label' => 'Role Create'
+            'label' => 'Role Create',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'role_update',
-            'label' => 'Role Update'
+            'label' => 'Role Update',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'role_destroy',
-            'label' => 'Role Delete'
+            'label' => 'Role Delete',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'sync_roles',
-            'label' => 'Sync Roles'
+            'label' => 'Sync Roles',
         ]);
 
         $permissions[] = Permission::create([
             'slug' => 'sync_permissions',
-            'label' => 'Sync Permissions'
+            'label' => 'Sync Permissions',
         ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'user_index',
+            'label' => 'User Query',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'user_store',
+            'label' => 'User Create',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'user_show',
+            'label' => 'User Read',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'user_update',
+            'label' => 'User Update',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'user_destroy',
+            'label' => 'User Delete',
+        ]);
+
+        $roleDefaultUser = Role::where('slug', 'default_user')->first();
+        $roleDefaultUser->givePermissionTo(Permission::where('slug', 'user_store')->first());
     }
 }

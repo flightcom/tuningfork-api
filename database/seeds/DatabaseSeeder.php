@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * All the tables that will be cleaned before seeding database
+     * All the tables that will be cleaned before seeding database.
      *
      * @var array
      */
@@ -16,12 +16,15 @@ class DatabaseSeeder extends Seeder
         'permission_role',
         'role_user',
         'posts',
+        'categories',
+        'brands',
+        'stores',
+        'instruments',
+        'stations',
     ];
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
@@ -30,13 +33,16 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(PermissionsTableSeeder::class);
+        $this->call(CategoriesTableSeeder::class);
+        $this->call(BrandsTableSeeder::class);
+        $this->call(StoresTableSeeder::class);
+        $this->call(StationsTableSeeder::class);
+        $this->call(InstrumentsTableSeeder::class);
     }
 
     /**
      * Cleans the database of any existing data to ensure no duplicate
-     * entries. Should use with caution if ever used in production
-     *
-     * @return void
+     * entries. Should use with caution if ever used in production.
      */
     public function cleanDatabase()
     {

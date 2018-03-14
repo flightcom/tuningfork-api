@@ -1,38 +1,60 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use Models\Location;
 use Models\User;
 
 class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run()
     {
         // Create super user account
-        User::create([
-            'email' => 'dev@osedea.com',
+        $user = User::create([
             'first_name' => 'Super',
             'last_name' => 'User',
-            'password' => 'asdfasdf',
-            'status' => config('constants.user_status.ACTIVE')
+            'email' => 'admin@tuningfork.fr',
+            'phone' => '0612345678',
+            'birth_date' => '1985-05-09',
+            'password' => 'q1w2e3r4',
+            'status' => config('constants.user_status.ACTIVE'),
         ]);
 
-        // Create dummy data
-        $faker = Faker\Factory::create();
+        $location = new Location([
+            'address' => '4551 rue Pontiac',
+            'address_more' => 'App 2',
+            'postalCode' => 'H2J2T2',
+            'city' => 'Montréal',
+            'country' => 'CANADA',
+        ]);
 
-        foreach(range(1, 500) as $index) {
-            User::create([
-                'email' => $faker->email,
+        $user->location()->save($location);
+
+        // Create dummy data
+        $faker = Faker\Factory::create('fr_FR');
+
+        foreach (range(1, 10) as $index) {
+            $location = new Location([
+                'address' => $faker->streetAddress,
+                'address_more' => $faker->buildingNumber,
+                'postalCode' => $faker->postcode,
+                'city' => $faker->city,
+                'country' => $faker->country,
+            ]);
+
+            $user = User::create([
                 'first_name' => $faker->firstName,
                 'last_name' => $faker->lastName,
-                'password' => 'asdfasdf',
-                'status' => config('constants.user_status.ACTIVE')
+                'email' => $faker->email,
+                'phone' => $faker->phoneNumber,
+                'birth_date' => $faker->date($format = 'Y-m-d'),
+                'password' => 'qaqaqa',
+                'status' => config('constants.user_status.ACTIVE'),
             ]);
+
+            $user->location()->save($location);
         }
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | App Constants
@@ -42,7 +41,7 @@ return [
     | This user will always have permissions to the entire gate facade
     |
     */
-    'root_user' => 'dev@osedea.com',
+    'root_user' => 'admin@tuningfork.fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,4 +92,21 @@ return [
         'DELETED' => 'DELETED',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | User Status
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify different statuses a user can have such as active,
+    | inactive, etc
+    |
+    */
+
+    'loan_status' => [
+        'ACTIVE' => 'ACTIVE',
+        'CLOSED' => 'CLOSED',
+        'CANCELED' => 'CANCELED',
+    ],
+
+    'default_loan_status' => 'ACTIVE',
 ];

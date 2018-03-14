@@ -29,12 +29,13 @@ class OwnerPermission
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @param bool $prefix
-     * @param string $foreign
-     * @param string $model Required for checking relationship ownership
-     * @param string $parent Required when model is defined
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     * @param bool                     $prefix
+     * @param string                   $foreign
+     * @param string                   $model   Required for checking relationship ownership
+     * @param string                   $parent  Required when model is defined
+     *
      * @return mixed
      */
     public function handle($request, Closure $next, $prefix = false, $foreign = 'user_id', $model = null, $parent = null)
@@ -49,7 +50,7 @@ class OwnerPermission
         // Gotta check if the user is the owner of the model
         if (
             $this->isOwner(
-                $request->route()->getParameter($prefix),
+                $request->route()->parameter($prefix),
                 $user,
                 $prefix,
                 $foreign,
@@ -75,12 +76,13 @@ class OwnerPermission
 
     /**
      * Verifies the model the the database for the foreign user key to
-     * match the given user
+     * match the given user.
      *
      * @param $id
      * @param $user
      * @param $prefix
      * @param $foreign
+     *
      * @return bool
      */
     protected function isOwner($id, $user, $prefix, $foreign, $model, $parent)
@@ -105,6 +107,7 @@ class OwnerPermission
      * @param $user
      * @param $prefix
      * @param $foreign
+     *
      * @return bool
      */
     protected function checkDirectOwnership($id, $user, $prefix, $foreign)
@@ -130,6 +133,7 @@ class OwnerPermission
      * @param $foreign
      * @param $model
      * @param $parent
+     *
      * @return bool
      */
     protected function checkRelationalOwnership($id, $user, $foreign, $model, $parent)
@@ -153,9 +157,10 @@ class OwnerPermission
     }
 
     /**
-     * Returns the proper response based on the client
+     * Returns the proper response based on the client.
      *
      * @param $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     protected function determineReturn($request)
@@ -170,7 +175,8 @@ class OwnerPermission
     /**
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function makeModel($name) {
+    public function makeModel($name)
+    {
         $model = $this->app->make('Models\\'.$name);
 
         return $this->model = $model;

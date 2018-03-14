@@ -10,9 +10,10 @@ class RESTPermission
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @param null $prefix
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     * @param null                     $prefix
+     *
      * @return mixed
      */
     public function handle($request, Closure $next, $prefix = null)
@@ -39,9 +40,10 @@ class RESTPermission
     }
 
     /**
-     * Returns the proper response based on the client
+     * Returns the proper response based on the client.
      *
      * @param $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     protected function determineReturn($request)

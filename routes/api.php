@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +17,7 @@ use Illuminate\Http\Request;
 //  API ROUTES
 //
 //////////////////////////////////////////////////////
-Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], function() {
-
+Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], function () {
     //////////////////////////////////////////////////////
     //
     //  SYSTEM ROUTES
@@ -27,7 +25,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
     //////////////////////////////////////////////////////
     Route::post('error/log', [
         'as' => 'error.log',
-        'uses' => 'ErrorsController@store'
+        'uses' => 'ErrorsController@store',
     ]);
 
     //////////////////////////////////////////////////////
@@ -35,53 +33,73 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
     //  AUTH API ROUTES
     //
     //////////////////////////////////////////////////////
-    Route::group(['namespace' => 'Auth'], function() {
+    Route::group([
+        'middleware' => 'api',
+        'prefix' => 'auth',
+        'namespace' => 'Auth',
+    ], function () {
         Route::post('login', [
             'as' => 'auth.login',
-            'uses' => 'AuthController@login'
+            'uses' => 'AuthController@login',
         ]);
 
         Route::get('whoami', [
             'as' => 'auth.whoami',
-            'uses' => 'AuthController@whoAmI'
+            'uses' => 'AuthController@whoAmI',
         ]);
 
         Route::get('logout', [
             'as' => 'auth.logout',
-            'uses' => 'AuthController@logout'
+            'uses' => 'AuthController@logout',
         ]);
 
         Route::post('register', [
             'as' => 'auth.register',
-            'uses' => 'AuthController@register'
+            'uses' => 'AuthController@register',
         ]);
 
         Route::post('password/email', [
             'as' => 'password.email',
-            'uses' => 'PasswordController@sendResetLinkEmail'
+            'uses' => 'PasswordController@sendResetLinkEmail',
         ]);
 
         Route::post('password/reset', [
             'as' => 'password.reset',
-            'uses' => 'PasswordController@reset'
+            'uses' => 'PasswordController@reset',
         ]);
     });
 
-    Route::group(['middleware' => 'jwt.auth'], function() {
+    // Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::group(['middleware' => 'api'], function () {
         //////////////////////////////////////////////////////
         //
         //  RESOURCE API ROUTES
         //
         //////////////////////////////////////////////////////
+        Route::put('users/{id}', 'UsersController@update');
         Route::resource('users', 'UsersController', [
-            'except' => ['store', 'create', 'edit']
+            'except' => ['index'],
         ]);
 
-		Route::resource('posts', 'PostsController', [
-			'except' => ['create', 'edit']
-		]);
+        Route::resource('posts', 'PostsController', [
+            'except' => ['create', 'edit'],
+        ]);
 
-		// END OF RESOURCE API - DO NOT REMOVE/MODIFY THIS COMMENT
+        //////////////////////////////////////////////////////
+        //
+        //  ADMIN API ROUTES
+        //
+        //////////////////////////////////////////////////////
+        Route::group([
+            'prefix' => 'admin',
+            'as' => 'admin.',
+            'namespace' => 'Admin',
+            'middleware' => 'auth',
+        ], function () {
+            Route::resource('users', 'UsersController');
+        });
+
+        // END OF RESOURCE API - DO NOT REMOVE/MODIFY THIS COMMENT
 
         //////////////////////////////////////////////////////
         //
@@ -89,7 +107,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
         //
         //////////////////////////////////////////////////////
         Route::resource('devices', 'DevicesController', [
-            'except' => ['create', 'edit']
+            'except' => ['create', 'edit'],
         ]);
     });
 });

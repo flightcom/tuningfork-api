@@ -3,7 +3,6 @@
 namespace Managers\Users;
 
 use Models\User;
-use JWTAuth;
 use FilesManager;
 
 class UsersManager
@@ -28,13 +27,14 @@ class UsersManager
 
     /**
      * @param array $data
+     *
      * @return static
      */
     public function store(array $data)
     {
         $userStatus = config('constants.default_user_status');
 
-        if ($data['status']) {
+        if (isset($data['status'])) {
             if (!array_key_exists($data['status'], config('constants.user_status'))) {
                 return null;
             }
@@ -43,9 +43,11 @@ class UsersManager
         }
 
         $user = User::create([
-            'email' => $data['email'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'] ?? null,
+            'birth_date' => $data['birth_date'],
             'password' => $data['password'],
             'status' => $userStatus,
         ]);
@@ -64,6 +66,7 @@ class UsersManager
 
     /**
      * @param $id
+     *
      * @return mixed
      */
     public function show($id)
@@ -74,6 +77,7 @@ class UsersManager
     /**
      * @param array $data
      * @param $id
+     *
      * @return mixed
      */
     public function update(array $data, $id)
@@ -84,7 +88,7 @@ class UsersManager
             return $user;
         }
 
-        $trim = array_filter($data, function($value) { return !empty(trim($value)); });
+        $trim = array_filter($data, function ($value) { return !empty(trim($value)); });
 
         $user->fill($trim);
 
@@ -98,6 +102,7 @@ class UsersManager
 
     /**
      * @param $id
+     *
      * @return mixed
      */
     public function destroy($id)
@@ -111,5 +116,32 @@ class UsersManager
 
         $file = FilesManager::store($avatar, 'avatars');
         $user->avatar()->save($file);
+    }
+
+    /**
+     * This function returns required information to display on the users
+     * view.
+     *
+     * @param int    $perPage
+     * @param string $search
+     * @param string $status
+     *
+     * @return array
+     */
+    public function getUsers($perPage = 15, $search = null, $status = null)
+    {
+        $users = User::query();
+
+        if ($search) {
+            $users->where('first_name', 'LIKE', "%$search%")
+                ->orWhere('last_name', 'LIKE', "%$search%")
+                ->orWhere('email', 'LIKE', "%$search%");
+        }
+
+        if ($status) {
+            $users->where('status', $status);
+        }
+
+        return $users->paginate($perPage);
     }
 }

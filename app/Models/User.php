@@ -7,8 +7,6 @@ use Models\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use Storage;
-
 class User extends Authenticatable
 {
     use Notifiable, SoftDeletes, HasRoles;
@@ -21,6 +19,8 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'birth_date',
+        'phone',
         'email',
         'password',
         'status',
@@ -34,7 +34,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'deleted_at'
+        'deleted_at',
     ];
 
     /**
@@ -47,7 +47,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be appended when the model is called
+     * The attributes that should be appended when the model is called.
      *
      * @var array
      */
@@ -56,7 +56,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * This function simply determines if the user is the app super admin
+     * This function simply determines if the user is the app super admin.
      *
      * An app super admin bypasses all permissions and roles
      */
@@ -76,7 +76,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Returns the users avatar
+     * Returns the users avatar.
      *
      * @return string | null
      */
@@ -88,14 +88,23 @@ class User extends Authenticatable
     }
 
     /**
-     * A user can have one avatar
+     * A user can have one avatar.
      */
-    public function avatar() {
+    public function avatar()
+    {
         return $this->morphOne(File::class, 'fileable');
     }
 
     /**
-     * A user can have several devices
+     * A user can have one address.
+     */
+    public function location()
+    {
+        return $this->morphOne(Location::class, 'locatable');
+    }
+
+    /**
+     * A user can have several devices.
      */
     public function devices()
     {
@@ -109,5 +118,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(ActionLog::class);
     }
-
 }
