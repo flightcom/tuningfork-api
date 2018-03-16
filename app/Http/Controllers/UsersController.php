@@ -14,8 +14,10 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('RESTpermission:user');
-        $this->middleware('own:user');
+        $this->middleware('RESTpermission:user')
+            ->except('update');
+        $this->middleware('own:user')
+            ->only(['show', 'update']);
     }
 
     /**

@@ -8,8 +8,6 @@ class CreateActionsLogTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -33,11 +31,9 @@ class CreateActionsLogTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
-        Schema::drop('action_logs');
+        Schema::dropIfExists('action_logs');
     }
 }

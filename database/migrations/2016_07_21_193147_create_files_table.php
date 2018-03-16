@@ -7,8 +7,6 @@ class CreateFilesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -34,11 +32,9 @@ class CreateFilesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
-        Schema::drop('files');
+        Schema::dropIfExists('files');
     }
 }

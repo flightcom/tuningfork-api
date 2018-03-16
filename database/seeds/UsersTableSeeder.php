@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
         $user = User::create([
             'first_name' => 'Super',
             'last_name' => 'User',
-            'email' => 'admin@tuningfork.fr',
+            'email' => config('constants.root_user'),
             'phone' => '0612345678',
             'birth_date' => '1985-05-09',
             'password' => 'q1w2e3r4',
@@ -28,6 +28,48 @@ class UsersTableSeeder extends Seeder
             'postalCode' => 'H2J2T2',
             'city' => 'Montréal',
             'country' => 'CANADA',
+        ]);
+
+        $user->location()->save($location);
+
+        // Create admin user account
+        $user = User::create([
+            'first_name' => 'Admin',
+            'last_name' => 'User',
+            'email' => config('constants.admin_user'),
+            'phone' => '0611223355',
+            'birth_date' => '1991-05-09',
+            'password' => 'q1w2e3r4',
+            'status' => config('constants.user_status.ACTIVE'),
+        ]);
+
+        // Create moderator user account
+        $user = User::create([
+            'first_name' => 'Moderator',
+            'last_name' => 'User',
+            'email' => config('constants.moderator_user'),
+            'phone' => '0611223345',
+            'birth_date' => '1988-05-09',
+            'password' => 'q1w2e3r4',
+            'status' => config('constants.user_status.ACTIVE'),
+        ]);
+
+        // Create simple user account
+        $user = User::create([
+            'first_name' => 'Default',
+            'last_name' => 'User',
+            'email' => config('constants.default_user'),
+            'phone' => '0611223344',
+            'birth_date' => '1985-05-09',
+            'password' => 'q1w2e3r4',
+            'status' => config('constants.user_status.ACTIVE'),
+        ]);
+
+        $location = new Location([
+            'address' => '39 rue Mazureau',
+            'postalCode' => '44400',
+            'city' => 'Rezé',
+            'country' => 'FRANCE',
         ]);
 
         $user->location()->save($location);

@@ -1,18 +1,15 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateDeviceTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
-        Schema::create('devices', function($table) {
+        Schema::create('devices', function ($table) {
             $table->uuid('id');
             $table->uuid('user_id');
             $table->string('token');
@@ -33,11 +30,9 @@ class CreateDeviceTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
-        Schema::drop('devices');
+        Schema::dropIfExists('devices');
     }
 }

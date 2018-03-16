@@ -48,6 +48,6 @@ class CreateInstrumentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('instruments');
+        Schema::dropIfExists('instruments');
     }
 }

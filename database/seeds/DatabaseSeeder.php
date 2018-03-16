@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         'stores',
         'instruments',
         'stations',
+        'subscriptions',
     ];
 
     /**
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
         $this->call(StoresTableSeeder::class);
         $this->call(StationsTableSeeder::class);
         $this->call(InstrumentsTableSeeder::class);
+        $this->call(SubscriptionsTableSeeder::class);
     }
 
     /**

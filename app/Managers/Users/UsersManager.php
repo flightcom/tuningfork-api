@@ -2,6 +2,7 @@
 
 namespace Managers\Users;
 
+use App\Notifications\UserCreated;
 use Models\User;
 use FilesManager;
 
@@ -60,6 +61,7 @@ class UsersManager
         // We'll assign a role as without one, the user cannot have
         // access to any of the resources we created
         $user->assignRole(config('constants.default_role'));
+        $user->notify(new UserCreated($user));
 
         return $user;
     }

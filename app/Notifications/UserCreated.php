@@ -45,12 +45,11 @@ class UserCreated extends Notification
         $token = Token::getToken($tokenLength);
 
         return (new MailMessage())
-            ->line('Votre compte vient d\'être créé. Veuillez suivre le lien suivant')
-            ->line('pour définir votre mot de passe :')
+            ->line('Bienvenue sur l\'instrumentèque !')
+            ->line('Votre compte vient d\'être créé. Veuillez suivre le lien suivant pour confirmer votre adresse courriel :')
             ->action(
-                'Définir mon mot de passe',
-                "$appUrl/password-reset/$token/?email=".$this->user->email)
-            ->line('Bienvenue sur l\'instrumentèque !');
+                'Confirmer mon adresse courriel',
+                "$appUrl/confirm/$token/?email=".$this->user->email);
     }
 
     /**

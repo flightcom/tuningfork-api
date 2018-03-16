@@ -31,7 +31,7 @@ return [
         'role_show',
     ],
 
-    'default_role' => 'default_user',
+    'default_role' => 'default',
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,10 @@ return [
     | This user will always have permissions to the entire gate facade
     |
     */
-    'root_user' => 'admin@tuningfork.fr',
+    'root_user' => 'root@tuningfork.fr',
+    'admin_user' => 'admin@tuningfork.fr',
+    'moderator_user' => 'moderator@tuningfork.fr',
+    'default_user' => 'default@tuningfork.fr',
 
     /*
     |--------------------------------------------------------------------------

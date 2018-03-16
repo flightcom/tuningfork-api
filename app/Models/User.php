@@ -118,4 +118,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(ActionLog::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
 }

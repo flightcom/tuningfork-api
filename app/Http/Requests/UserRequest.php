@@ -24,6 +24,8 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        error_log('ID : '.$this->user);
+
         return [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -31,10 +33,10 @@ class UserRequest extends FormRequest
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($this->id),
+                Rule::unique('users')->ignore($this->user),
             ],
             'phone' => [
-                Rule::unique('users')->ignore($this->id),
+                Rule::unique('users')->ignore($this->user),
             ],
             'birth_date' => 'required|date',
             'password' => 'confirmed',

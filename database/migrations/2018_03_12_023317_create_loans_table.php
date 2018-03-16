@@ -17,8 +17,8 @@ class CreateLoansTable extends Migration
             $table->float('deposit_price');
             $table->boolean('deposit_received')->default(false);
             $table->boolean('deposit_returned')->default(false);
-            $table->uuid('instrument_id')->nullable();
-            $table->uuid('user_id')->nullable();
+            $table->uuid('instrument_id');
+            $table->uuid('user_id');
             $table->text('comment');
             $table->string('status');
             $table->datetime('ending_at');
@@ -43,6 +43,6 @@ class CreateLoansTable extends Migration
      */
     public function down()
     {
-        Schema::drops('loans');
+        Schema::dropIfExists('loans');
     }
 }

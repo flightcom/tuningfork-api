@@ -7,8 +7,6 @@ class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -65,14 +63,12 @@ class CreateRolesTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
-        Schema::drop('permission_role');
-        Schema::drop('role_user');
-        Schema::drop('permissions');
-        Schema::drop('roles');
+        Schema::dropIfExists('permission_role');
+        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('permissions');
+        Schema::dropIfExists('roles');
     }
 }

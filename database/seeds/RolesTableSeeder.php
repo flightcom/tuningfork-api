@@ -13,8 +13,13 @@ class RolesTableSeeder extends Seeder
     {
         // Creating a default user permission
         $role = Role::create([
-            'slug' => 'default_user',
+            'slug' => 'default',
             'label' => 'User',
+        ]);
+
+        $role = Role::create([
+            'slug' => 'moderator',
+            'label' => 'Moderator',
         ]);
 
         $role = Role::create([
@@ -30,10 +35,16 @@ class RolesTableSeeder extends Seeder
         $users = User::where('email', '!=', config('constants.root_user'))->get();
 
         foreach ($users as $user) {
-            $user->assignRole('default_user');
+            $user->assignRole('default');
         }
 
         $root_user = User::where('email', config('constants.root_user'))->first();
         $root_user->assignRole('super_admin');
+
+        $admin_user = User::where('email', config('constants.admin_user'))->first();
+        $admin_user->assignRole('admin');
+
+        $moderator_user = User::where('email', config('constants.moderator_user'))->first();
+        $moderator_user->assignRole('moderator');
     }
 }

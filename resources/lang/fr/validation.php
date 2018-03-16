@@ -11,8 +11,11 @@ return [
             'required' => 'Veuillez indiquer votre date de naissance',
             'date' => 'Veuillez indiquer une date de naissance valide',
         ],
+        'email' => [
+            'unique' => 'Ce courriel est déjà présent dans notre base de données',
+        ],
         'phone' => [
-            'unique' => 'Le numéro de téléphone est déjà présent dans notre base de données',
+            'unique' => 'Ce numéro de téléphone est déjà présent dans notre base de données',
         ],
     ],
 ];

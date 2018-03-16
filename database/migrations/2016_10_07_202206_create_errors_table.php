@@ -8,8 +8,6 @@ class CreateErrorsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -27,11 +25,9 @@ class CreateErrorsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {
-        Schema::drop('errors');
+        Schema::dropIfExists('errors');
     }
 }

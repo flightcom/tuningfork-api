@@ -33,6 +33,8 @@ class RESTPermission
         $permission = explode('@', $delimitedAction[count($delimitedAction) - 1]);
 
         if ($user->cannot($prefix.'_'.$permission[1])) {
+            \Log::info('user cannot '.$prefix.'_'.$permission[1]);
+
             return $this->determineReturn($request);
         } else {
             return $next($request);

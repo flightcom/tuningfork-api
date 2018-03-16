@@ -11,7 +11,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Lucy_v5.3',
+    'name' => 'Tuningfork',
 
     /*
     |--------------------------------------------------------------------------
@@ -51,6 +51,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'url_frontend' => env('APP_FRONTEND_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------

@@ -13,15 +13,11 @@
 */
 
 //////////////////////////////////////////////////////
-//
 //  API ROUTES
-//
 //////////////////////////////////////////////////////
 Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], function () {
     //////////////////////////////////////////////////////
-    //
     //  SYSTEM ROUTES
-    //
     //////////////////////////////////////////////////////
     Route::post('error/log', [
         'as' => 'error.log',
@@ -29,9 +25,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
     ]);
 
     //////////////////////////////////////////////////////
-    //
     //  AUTH API ROUTES
-    //
     //////////////////////////////////////////////////////
     Route::group([
         'middleware' => 'api',
@@ -69,27 +63,31 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
         ]);
     });
 
-    // Route::group(['middleware' => 'jwt.auth'], function () {
+    //////////////////////////////////////////////////////
+    //////////////  RESOURCE API ROUTES  /////////////////
+    //////////////////////////////////////////////////////
+
     Route::group(['middleware' => 'api'], function () {
-        //////////////////////////////////////////////////////
-        //
-        //  RESOURCE API ROUTES
-        //
-        //////////////////////////////////////////////////////
-        Route::put('users/{id}', 'UsersController@update');
+        //////////////////////  USER  ///////////////////////
+        Route::put('users/{user}', 'UsersController@update');
         Route::resource('users', 'UsersController', [
-            'except' => ['index'],
+            'except' => ['index', 'update'],
         ]);
 
-        Route::resource('posts', 'PostsController', [
-            'except' => ['create', 'edit'],
+        ///////////////////  INSTRUMENT  ////////////////////
+        Route::resource('instruments', 'InstrumentsController', [
+            'only' => ['index'],
         ]);
+
+        //////////////////////  POST  ///////////////////////
+        // Route::resource('posts', 'PostsController', [
+        //     'except' => ['create', 'edit'],
+        // ]);
 
         //////////////////////////////////////////////////////
-        //
         //  ADMIN API ROUTES
-        //
         //////////////////////////////////////////////////////
+
         Route::group([
             'prefix' => 'admin',
             'as' => 'admin.',
@@ -102,12 +100,18 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
         // END OF RESOURCE API - DO NOT REMOVE/MODIFY THIS COMMENT
 
         //////////////////////////////////////////////////////
-        //
         //  DEVICES ROUTES
-        //
         //////////////////////////////////////////////////////
         Route::resource('devices', 'DevicesController', [
             'except' => ['create', 'edit'],
         ]);
     });
+
+    //////////////////////////////////////////////////////
+    /////////////////  NON-AUTH ROUTES  //////////////////
+    //////////////////////////////////////////////////////
+
+    Route::resource('users', 'UsersController', [
+        'only' => ['store'],
+    ]);
 });
