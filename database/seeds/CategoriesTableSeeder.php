@@ -13,10 +13,10 @@ class CategoriesTableSeeder extends Seeder
         $categories = ['Clavier', 'Batterie', 'Guitare', 'Piano'];
 
         foreach ($categories as $cat) {
-            Category::create([
-                'name' => $cat,
-                'slug' => str_slug($cat, '-'),
+            $category = new Category([
+                'name' => $cat
             ]);
+            $category->save();
         }
     }
 }

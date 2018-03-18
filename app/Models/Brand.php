@@ -34,9 +34,7 @@ class Brand extends Model
      *
      * @var array
      */
-    protected $appends = [
-        'instruments',
-    ];
+    protected $appends = [];
 
     /**
      * Category of the instrument.
@@ -44,5 +42,15 @@ class Brand extends Model
     public function instruments()
     {
         return $this->hasMany(Instrument::class);
+    }
+
+    /**
+     * Set Slug attribute (if not set)
+     */
+    public function setNameAttribute($value)
+    {
+        $slug = str_slug($value, '-');
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = $slug;
     }
 }

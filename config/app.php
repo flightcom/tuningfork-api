@@ -252,6 +252,7 @@ return [
         'ErrorsManager' => Managers\System\ErrorsManagerFacade::class,
         'ActionLogsManager' => Managers\System\ActionLogsManagerFacade::class,
         'PostsManager' => Managers\Posts\PostsManagerFacade::class,
+        'InstrumentsManager' => Managers\Instruments\InstrumentsManagerFacade::class,
         // END OF APP ALIASES - DO NOT REMOVE/MODIFY THIS COMMENT
     ],
 ];

@@ -37,7 +37,6 @@ class Category extends Model
      */
     protected $appends = [
         'parent',
-        'children',
     ];
 
     /**
@@ -49,10 +48,36 @@ class Category extends Model
     }
 
     /**
+     * GET Parent category of the instrument.
+     */
+    public function getParentAttribute()
+    {
+        return $this->parent()->first();
+    }
+
+    /**
      * Children category of the instrument.
      */
     public function children()
     {
         return $this->hasMany(self::class);
+    }
+
+    /**
+     * Children category of the instrument.
+     */
+    public function getChildrenAttribute()
+    {
+        return $this->children()->get()->toArray();
+    }
+
+    /**
+     * Set Slug attribute (if not set)
+     */
+    public function setNameAttribute($value)
+    {
+        $slug = str_slug($value, '-');
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = $slug;
     }
 }

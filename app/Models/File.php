@@ -17,7 +17,7 @@ class File extends Model
     protected $fillable = [
         'local_filename',
         'local_path',
-        'entity'
+        'entity',
     ];
 
     /**
@@ -28,11 +28,20 @@ class File extends Model
     protected $hidden = ['fileable_id', 'fileable_type'];
 
     /**
-     * This morphs the file to whichever model it is associated with
+     * This morphs the file to whichever model it is associated with.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function fileable() {
+    public function fileable()
+    {
         return $this->morphTo();
+    }
+
+    public function delete()
+    {
+        if (Storage::exists($this->local_path)) {
+            Storage::delete($this->local_path);
+        }
+        parent::delete();
     }
 }

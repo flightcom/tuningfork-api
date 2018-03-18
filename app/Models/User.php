@@ -6,6 +6,7 @@ use Models\Extensions\LucyUserModel as Authenticatable;
 use Models\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -53,6 +54,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'avatar',
+        'hasActiveSubscription',
     ];
 
     /**
@@ -125,5 +127,17 @@ class User extends Authenticatable
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    public function hasActiveSubscription()
+    {
+        $subscriptions = $this->subscriptions;
+        foreach ($subscriptions as $sub) {
+            if ($sub->starts_at < Carbon::now() && $sub->ends_at > Carbon::now()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

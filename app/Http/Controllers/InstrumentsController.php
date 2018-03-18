@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use Exception;
+use App\Http\Requests\InstrumentRequest;
 use App\Utils\ExceptionLogger;
-use UsersManager;
+use Exception;
+use InstrumentsManager;
 
-class UsersController extends Controller
+class InstrumentsController extends Controller
 {
     /**
      * Create a new controller instance.
      */
     public function __construct()
     {
-        $this->middleware('RESTpermission:user')
-            ->except(['show', 'update']);
-        $this->middleware('own:user')
-            ->only(['show', 'update']);
+        $this->middleware('RESTpermission:instrument')
+            ->except(['index', 'show']);
     }
 
     /**
@@ -28,10 +26,10 @@ class UsersController extends Controller
     public function index()
     {
         try {
-            $data = UsersManager::query();
+            $data = InstrumentsManager::query();
 
             if (!$data) {
-                return ExceptionLogger::apiReturnModelNotFound('user');
+                return ExceptionLogger::apiReturnModelNotFound('instrument');
             }
 
             return response()->json($data, 200);
@@ -52,7 +50,37 @@ class UsersController extends Controller
     public function show($id)
     {
         try {
-            $data = UsersManager::show($id);
+            $data = InstrumentsManager::show($id);
+
+            if (!$data) {
+                return ExceptionLogger::apiReturnModelNotFound('instrument');
+            }
+
+            return response()->json($data, 200);
+        } catch (Exception $e) {
+            ExceptionLogger::log($e);
+
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param string $email                 optional
+     * @param string $first_name            optional
+     * @param string $last_name             optional
+     * @param string $password              optional
+     * @param string $password_confirmation optional if password not set
+     * @param string $status                optional
+     * @param int    $user                  The user id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store(InstrumentRequest $request)
+    {
+        try {
+            $data = InstrumentsManager::store($request->all());
 
             if (!$data) {
                 return ExceptionLogger::apiReturnModelNotFound('user');
@@ -79,43 +107,13 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function update(InstrumentRequest $request, $id)
     {
         try {
-            $data = UsersManager::store($request->all());
+            $data = InstrumentsManager::update($request->all(), $id);
 
             if (!$data) {
-                return ExceptionLogger::apiReturnModelNotFound('user');
-            }
-
-            return response()->json($data, 200);
-        } catch (Exception $e) {
-            ExceptionLogger::log($e);
-
-            return response()->json($e->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param string $email                 optional
-     * @param string $first_name            optional
-     * @param string $last_name             optional
-     * @param string $password              optional
-     * @param string $password_confirmation optional if password not set
-     * @param string $status                optional
-     * @param int    $user                  The user id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UserRequest $request, $id)
-    {
-        try {
-            $data = UsersManager::update($request->all(), $id);
-
-            if (!$data) {
-                return ExceptionLogger::apiReturnModelNotFound('user');
+                return ExceptionLogger::apiReturnModelNotFound('instrument');
             }
 
             return response()->json($data, 200);
@@ -136,10 +134,10 @@ class UsersController extends Controller
     public function destroy($id)
     {
         try {
-            $data = UsersManager::destroy($id);
+            $data = InstrumentsManager::destroy($id);
 
             if (!$data) {
-                return ExceptionLogger::apiReturnModelNotFound('user');
+                return ExceptionLogger::apiReturnModelNotFound('instrument');
             }
 
             return response()->json($data, 200);

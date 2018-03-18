@@ -45,4 +45,9 @@ class Store extends Model
     {
         return $this->morphOne(Location::class, 'locatable');
     }
+
+    public function instruments()
+    {
+        return $this->hasMany(Instrument::class);
+    }
 }

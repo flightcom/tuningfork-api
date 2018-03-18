@@ -37,9 +37,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
             'uses' => 'AuthController@login',
         ]);
 
-        Route::get('whoami', [
-            'as' => 'auth.whoami',
-            'uses' => 'AuthController@whoAmI',
+        Route::get('me', [
+            'as' => 'auth.me',
+            'uses' => 'AuthController@me',
         ]);
 
         Route::get('logout', [
@@ -47,9 +47,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
             'uses' => 'AuthController@logout',
         ]);
 
-        Route::post('register', [
-            'as' => 'auth.register',
-            'uses' => 'AuthController@register',
+        Route::get('refresh', [
+            'as' => 'auth.refresh',
+            'uses' => 'AuthController@refresh',
         ]);
 
         Route::post('password/email', [
@@ -70,14 +70,13 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
     Route::group(['middleware' => 'api'], function () {
         //////////////////////  USER  ///////////////////////
         Route::put('users/{user}', 'UsersController@update');
+        Route::get('users/{user}', 'UsersController@show');
         Route::resource('users', 'UsersController', [
-            'except' => ['index', 'update'],
+            'except' => ['show', 'update'],
         ]);
 
         ///////////////////  INSTRUMENT  ////////////////////
-        Route::resource('instruments', 'InstrumentsController', [
-            'only' => ['index'],
-        ]);
+        Route::resource('instruments', 'InstrumentsController');
 
         //////////////////////  POST  ///////////////////////
         // Route::resource('posts', 'PostsController', [
@@ -113,5 +112,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
 
     Route::resource('users', 'UsersController', [
         'only' => ['store'],
+    ]);
+
+    Route::resource('instruments', 'InstrumentsController', [
+        'only' => ['index', 'show'],
     ]);
 });

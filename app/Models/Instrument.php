@@ -42,17 +42,22 @@ class Instrument extends Model
     protected $appends = [
         'brand',
         'category',
-        'loans',
+        // 'loans',
         'picture',
         'store',
     ];
 
     /**
-     * Category of the instrument.
+     * Brand of the instrument.
      */
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function getBrandAttribute()
+    {
+        return $this->brand()->first();
     }
 
     /**
@@ -63,12 +68,24 @@ class Instrument extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function getCategoryAttribute()
+    {
+        return $this->category()->first();
+    }
+
     /**
-     * A user can have one avatar.
+     * An instrument can have one picture.
      */
     public function picture()
     {
         return $this->morphOne(File::class, 'fileable');
+    }
+
+    public function getPictureAttribute()
+    {
+        $picture = $this->picture()->first();
+
+        return $picture->local_path ?? null;
     }
 
     /**
@@ -86,7 +103,14 @@ class Instrument extends Model
      */
     public function store()
     {
-        return $this->hasOne(Store::class);
+        return $this->belongsTo(Store::class);
+    }
+
+    public function getStoreAttribute()
+    {
+        $store = $this->store()->first();
+
+        return $store->name ?? null;
     }
 
     /**

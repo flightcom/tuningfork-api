@@ -24,8 +24,6 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        error_log('ID : '.$this->user);
-
         return [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',

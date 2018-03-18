@@ -15,13 +15,13 @@ class CreateCategoriesTable extends Migration
             $table->uuid('id');
             $table->primary('id');
             $table->string('name');
-            $table->string('slug');
-            $table->uuid('parent_id')->nullable();
+            $table->string('slug')->unique();
+            $table->uuid('category_id')->nullable();
             $table->timestamps();
         });
 
         Schema::table('categories', function (Blueprint $table) {
-            $table->foreign('parent_id')
+            $table->foreign('category_id')
                 ->references('id')
                 ->on('categories')
                 ->onDelete('cascade');
