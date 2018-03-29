@@ -35,7 +35,8 @@ class Loan extends Model
      * @var array
      */
     protected $dates = [
-        'ending_at',
+        'starts_at',
+        'ends_at',
         'ended_at',
         'deleted_at',
     ];
@@ -76,5 +77,27 @@ class Loan extends Model
         if (!$status) {
             $this->attributes['status'] = config('constants.default_loan_status');
         }
+    }
+
+    /**
+     * Checks if a loan is active
+     *
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->starts_at < Carbon::now()
+            && is_null($this->ended_at);
+    }
+
+    /**
+     * Checks if the loan intented end date is over
+     *
+     * @return boolean
+     */
+    public function isNotEnded()
+    {
+        return $this->ends_at < Carbon::now()
+            && is_null($this->ended_at);
     }
 }

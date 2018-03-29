@@ -29,9 +29,8 @@ trait HasRoles
      */
     public function assignRole($role)
     {
-        return $this->roles()->save(
-            Role::whereSlug($role)->firstOrFail()
-        );
+        $this->roles()->detach();
+        return $this->roles()->save($role);
     }
 
     /**

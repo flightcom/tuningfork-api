@@ -21,7 +21,8 @@ class CreateLoansTable extends Migration
             $table->uuid('user_id');
             $table->text('comment');
             $table->string('status');
-            $table->datetime('ending_at');
+            $table->datetime('starts_at');
+            $table->datetime('ends_at');
             $table->datetime('ended_at');
             $table->timestamps();
             $table->softDeletes();

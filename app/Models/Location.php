@@ -41,7 +41,9 @@ class Location extends Model
      *
      * @var array
      */
-    protected $appends = [];
+    protected $appends = [
+        'full_address',
+    ];
 
     /**
      * This morphs the address to whichever model it is associated with.
@@ -51,5 +53,14 @@ class Location extends Model
     public function locatable()
     {
         return $this->morphTo();
+    }
+
+    public function getFullAddressAttribute()
+    {
+        return ($this->address ? ' ' . $this->address : '')
+            . ($this->address_more ? ' ' . $this->address_more : '')
+            . ($this->postalCode ? ' ' . $this->postalCode : '')
+            . ($this->city ? ' ' . $this->city : '')
+            . ($this->country ? ' ' . $this->country : '');
     }
 }

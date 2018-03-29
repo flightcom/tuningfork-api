@@ -53,7 +53,8 @@ class AuthManager
     /**
      * @return mixed
      */
-    public function whoAmI() {
+    public function whoAmI()
+    {
         return JWTAuth::parseToken()->toUser();
     }
 
@@ -71,8 +72,8 @@ class AuthManager
             'status' => config('constants.default_user_status'),
         ]);
 
-        if (config('constants.default_role')) {
-            $user->assignRole(config('constants.default_role'));
+        if (config('constants.default_user_role')) {
+            $user->assignRole(config('constants.default_user_role'));
         }
 
         $user->token = JWTAuth::fromUser($user);

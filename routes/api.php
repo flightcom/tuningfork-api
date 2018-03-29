@@ -76,7 +76,22 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
         ]);
 
         ///////////////////  INSTRUMENT  ////////////////////
+        Route::put('instruments/{instrument}', 'InstrumentsController@update');
+        Route::get('instruments/{instrument}', 'InstrumentsController@show');
         Route::resource('instruments', 'InstrumentsController');
+
+        ///////////////////  BRANDS  ////////////////////////
+        Route::resource('brands', 'BrandsController');
+
+        ///////////////////  STATIONS  //////////////////////
+        Route::resource('stations', 'StationsController');
+
+        ///////////////////  CATEGORIES  ////////////////////
+        Route::resource('categories', 'CategoriesController');
+        Route::get('subcategories/{categorie}', 'CategoriesController@sub');
+
+        ///////////////////  ROLE  //////////////////////////
+        Route::resource('roles', 'RolesController');
 
         //////////////////////  POST  ///////////////////////
         // Route::resource('posts', 'PostsController', [

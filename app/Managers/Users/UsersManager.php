@@ -3,7 +3,9 @@
 namespace Managers\Users;
 
 use App\Notifications\UserCreated;
+use Models\Location;
 use Models\User;
+use Models\Role;
 use FilesManager;
 
 class UsersManager
@@ -48,7 +50,7 @@ class UsersManager
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'phone' => $data['phone'] ?? null,
-            'birth_date' => $data['birth_date'],
+            'birth_date' => $data['birth_date'] ? date('Y-m-d', strtotime($data['birth_date'])) : date('Y-m-d'),
             'password' => $data['password'],
             'status' => $userStatus,
         ]);
@@ -58,9 +60,25 @@ class UsersManager
             $this->saveAvatar($user, $data['avatar']);
         }
 
-        // We'll assign a role as without one, the user cannot have
-        // access to any of the resources we created
-        $user->assignRole(config('constants.default_role'));
+        // If location, save it
+        if (array_key_exists('location', $data)) {
+            $location = Location::create($data['location']);
+            $user->location()->save($location);
+        }
+
+        // Role
+        if (array_key_exists('roles', $data)) {
+            $role = Role::find($data['roles'][0]['id']);
+            if ($role) {
+                $user->assignRole($role);
+            }
+        } else {
+            // We'll assign a role as without one, the user cannot have
+            // access to any of the resources we created
+            $role = Role::where('slug', config('constants.default_user_role'))->first();
+            $user->assignRole($role);
+        }
+
         $user->notify(new UserCreated($user));
 
         return $user;
@@ -73,7 +91,7 @@ class UsersManager
      */
     public function show($id)
     {
-        return User::find($id);
+        return User::find($id)->load('location', 'roles');
     }
 
     /**
@@ -90,13 +108,30 @@ class UsersManager
             return $user;
         }
 
-        $trim = array_filter($data, function ($value) { return !empty(trim($value)); });
-
-        $user->fill($trim);
+        $user->fill($data);
 
         // If an avatar was added, save it
         if (array_key_exists('avatar', $data)) {
             $this->saveAvatar($user, $data['avatar']);
+        }
+
+        // If location, save it
+        if (array_key_exists('location', $data)) {
+            $user->location->fill($data['location']);
+            $user->location->save();
+        }
+
+        // Role
+        if (array_key_exists('roles', $data)) {
+            $role = Role::find($data['roles'][0]['id']);
+            if ($role) {
+                $user->assignRole($role);
+            }
+        } else {
+            // We'll assign a role as without one, the user cannot have
+            // access to any of the resources we created
+            $role = Role::where('slug', config('constants.default_user_role'))->first();
+            $user->assignRole($role);
         }
 
         return $user->save();
@@ -130,18 +165,19 @@ class UsersManager
      *
      * @return array
      */
-    public function getUsers($perPage = 15, $search = null, $status = null)
+    public function search($perPage = 15, $filter = null, $sort = null)
     {
         $users = User::query();
 
-        if ($search) {
-            $users->where('first_name', 'LIKE', "%$search%")
-                ->orWhere('last_name', 'LIKE', "%$search%")
-                ->orWhere('email', 'LIKE', "%$search%");
+        if ($filter) {
+            foreach ($filter as $key => $value) {
+                $users->where($key, 'LIKE', "%$value%");
+            }
         }
 
-        if ($status) {
-            $users->where('status', $status);
+        if ($sort) {
+            list($field, $direction) = $sort;
+            $users->orderBy($field, $direction);
         }
 
         return $users->paginate($perPage);

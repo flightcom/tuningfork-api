@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\InstrumentRequest;
 use App\Utils\ExceptionLogger;
 use Exception;
@@ -23,10 +24,16 @@ class InstrumentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->all();
+
         try {
-            $data = InstrumentsManager::query();
+            $perPage = $data['perPage'] ?? null;
+            $filter = isset($data['filter']) ? json_decode($data['filter']) : null;
+            $sort = isset($data['sort']) ? json_decode($data['sort']) : null;
+
+            $data = InstrumentsManager::search($perPage, $filter, $sort);
 
             if (!$data) {
                 return ExceptionLogger::apiReturnModelNotFound('instrument');

@@ -18,6 +18,11 @@ class Role extends Model
         'label'
     ];
 
+    protected $appends = [
+        'name',
+    ];
+
+
     /**
      * A role may be given various permissions.
      *
@@ -37,5 +42,10 @@ class Role extends Model
     public function givePermissionTo(Permission $permission)
     {
         return $this->permissions()->save($permission);
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->slug;
     }
 }

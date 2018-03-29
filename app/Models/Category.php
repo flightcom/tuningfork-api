@@ -36,13 +36,26 @@ class Category extends Model
      * @var array
      */
     protected $appends = [
-        'parent',
+        // 'category',
     ];
+
+    /**
+     * Scope
+     */
+    public function scopeOfCategory($query, $category)
+    {
+        error_log('CATEGORY : ' . $category);
+        if (is_null($category)) {
+            return $query->whereNull('category_id');
+        } else {
+            return $query->where('category_id', $category);
+        }
+    }
 
     /**
      * Parent category of the instrument.
      */
-    public function parent()
+    public function category()
     {
         return $this->belongsTo(self::class);
     }
@@ -50,9 +63,9 @@ class Category extends Model
     /**
      * GET Parent category of the instrument.
      */
-    public function getParentAttribute()
+    public function getCategoryAttribute()
     {
-        return $this->parent()->first();
+        return $this->category()->first();
     }
 
     /**

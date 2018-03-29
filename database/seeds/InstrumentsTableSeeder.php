@@ -22,7 +22,7 @@ class InstrumentsTableSeeder extends Seeder
 
         foreach (range(1, 10) as $index) {
             Instrument::create([
-                'model' => $faker->text(200),
+                'model' => $faker->text(20),
                 'serial_number' => $faker->regexify('[A-Z0-9]+[A-Z0-9-]+'),
                 'condition' => $faker->numberBetween($min = 1, $max = 5),
                 'to_be_checked' => $faker->boolean(25),

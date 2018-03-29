@@ -34,7 +34,9 @@ class Station extends Model
      *
      * @var array
      */
-    protected $appends = [
+    protected $appends = [];
+
+    protected $with = [
         'location',
     ];
 

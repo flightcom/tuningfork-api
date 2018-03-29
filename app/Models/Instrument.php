@@ -42,9 +42,19 @@ class Instrument extends Model
     protected $appends = [
         'brand',
         'category',
+        'categories',
+        'category_ids',
         // 'loans',
         'picture',
         'store',
+    ];
+
+    /* The attributes that should be cast to native types.
+    *
+    * @var array
+    */
+    protected $casts = [
+        'to_be_checked' => 'boolean',
     ];
 
     /**
@@ -71,6 +81,36 @@ class Instrument extends Model
     public function getCategoryAttribute()
     {
         return $this->category()->first();
+    }
+
+    public function getCategoryIdsAttribute()
+    {
+        $ids = [];
+        $category = $this->category;
+        $ids[] = $category ? $category->id : null;
+
+        if ($category) {
+            while ($category = $category->category) {
+                $ids[] = $category->id;
+            }
+        }
+
+        return array_reverse($ids);
+    }
+
+    public function getCategoriesAttribute()
+    {
+        $categories = [];
+        $category = $this->category;
+        $categories[] = $category ?? null;
+
+        if ($category) {
+            while ($category = $category->category) {
+                $categories[] = $category;
+            }
+        }
+
+        return array_reverse($categories);
     }
 
     /**

@@ -31,12 +31,12 @@ class InstrumentRequest extends FormRequest
             'to_be_checked'      => 'boolean',
             'brand'              => 'required_without:brand_id',
             'brand_id'           => 'required_without:brand|exists:brands,id',
-            'category'           => 'required_without:category_id',
-            'category_id'        => 'required_without:category|exists:categories,id',
-            'parent_category_id' => 'exists:categories,id',
-            'store_id'           => 'exists:stores,id',
+            'categories'         => 'required',
+            // 'category_id'        => 'required_without:category|exists:categories,id',
+            // 'parent_category_id' => 'exists:categories,id',
+            'store_id'           => 'nullable|exists:stores,id',
             'comment'            => 'max:65536',
-            'picture'            => 'file',
+            'picture'            => 'nullable|file',
         ];
     }
 }

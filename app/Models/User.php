@@ -54,7 +54,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'avatar',
-        'hasActiveSubscription',
+        'has_subscribed',
     ];
 
     /**
@@ -127,6 +127,11 @@ class User extends Authenticatable
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    public function getHasSubscribedAttribute()
+    {
+        return $this->hasActiveSubscription();
     }
 
     public function hasActiveSubscription()

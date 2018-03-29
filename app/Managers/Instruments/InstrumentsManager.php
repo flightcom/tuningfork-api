@@ -34,8 +34,6 @@ class InstrumentsManager
      */
     public function store(array $data)
     {
-        logger($data);
-
         $instrument = new Instrument([
             'model' => $data['model'],
             'serial_number' => $data['serial_number'] ?? null,
@@ -69,31 +67,29 @@ class InstrumentsManager
             $instrument->brand()->associate($brand);
         }
 
-        // Cateogry
-        // Create new one if slug not exist
-        if (array_key_exists('category', $data)) {
-            $category = Category::where('slug', str_slug($data['category']))->first();
-            if (!$category) {
-                try {
-                    $category = Category::create([
-                        'name' => $data['category'],
-                        'slug' => str_slug($data['category']),
-                    ]);
-                } catch (Exception $e) {
-                    return $e->getMessage();
+        // Category
+        if (array_key_exists('category_ids', $data)) {
+            $categories = array_reverse($data['category_ids']);
+            $last_category_id = $categories[0];
+            // Check if category exists
+            if ($cat_exists = Category::find($last_category_id)) {
+                $category = $cat_exists;
+            } elseif (isset($categories[1]) && $cat_exists = Category::where([
+                ['category_id', '=', $categories[1]],
+                ['slug', '=', str_slug($categories[0])],
+            ])->first()) {
+                $category = $cat_exists;
+            } else {
+                $category = new Category(['name' => $categories[0]]);
+                if (isset($categories[1]) && $parent = Category::find($categories[1])) {
+                    $category->category()->associate($parent);
                 }
+                $category->save();
             }
             $instrument->category()->associate($category);
         }
 
-
-        if (array_key_exists('category_id', $data)) {
-            $category = Category::find($data['category_id']);
-            if ($category) {
-                $instrument->category()->associate($category);
-            }
-        }
-
+        // Store
         if (array_key_exists('store_id', $data)) {
             $store = Store::find($data['store_id']);
             if ($store) {
@@ -130,9 +126,29 @@ class InstrumentsManager
             return $instrument;
         }
 
-        $trim = array_filter($data, function ($value) { return !empty(trim($value)); });
+        $instrument->fill($data);
 
-        $instrument->fill($trim);
+        // Category
+        if (array_key_exists('category_ids', $data)) {
+            $categories = array_reverse($data['category_ids']);
+            $last_category_id = $categories[0];
+            // Check if category exists
+            if ($cat_exists = Category::find($last_category_id)) {
+                $category = $cat_exists;
+            } elseif (isset($categories[1]) && $cat_exists = Category::where([
+                ['category_id', '=', $categories[1]],
+                ['slug', '=', str_slug($categories[0])],
+            ])->first()) {
+                $category = $cat_exists;
+            } else {
+                $category = new Category(['name' => $categories[0]]);
+                if (isset($categories[1]) && $parent = Category::find($categories[1])) {
+                    $category->category()->associate($parent);
+                }
+                $category->save();
+            }
+            $instrument->category()->associate($category);
+        }
 
         return $instrument->save();
     }
@@ -157,17 +173,28 @@ class InstrumentsManager
      *
      * @return array
      */
-    public function getInstruments($perPage = 15, $search = null, $to_be_checked = null)
+    public function search($perPage = 15, $filter = null, $sort = null)
     {
-        $instruments = Instruments::query();
+        $instruments = Instrument::query();
 
-        if ($search) {
-            $instruments->where('model', 'LIKE', "%$search%")
-                ->orWhere('serial_number', 'LIKE', "%$search%");
+        if ($filter) {
+            foreach ($filter as $key => $value) {
+                switch ($key) {
+                    case 'brand':
+                        $instruments->where('brand_id', $value->id)->get();
+                        break;
+                    case 'to_be_checked':
+                        $instruments->where($key, $value);
+                        break;
+                    default:
+                        $instruments->where($key, 'LIKE', "%$value%");
+                }
+            }
         }
 
-        if ($to_be_checked) {
-            $instruments->where('to_be_checked', $to_be_checked);
+        if ($sort) {
+            list($field, $direction) = $sort;
+            $instruments->orderBy($field, $direction);
         }
 
         return $instruments->paginate($perPage);

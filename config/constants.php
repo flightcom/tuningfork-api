@@ -31,7 +31,14 @@ return [
         'role_show',
     ],
 
-    'default_role' => 'default',
+    'user_roles' => [
+        'default' => 'Default',
+        'moderator' => 'Moderator',
+        'admin' => 'Admin',
+        'super_admin' => 'Super Admin',
+    ],
+
+    'default_user_role' => 'default',
 
     /*
     |--------------------------------------------------------------------------

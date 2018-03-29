@@ -44,6 +44,11 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
         $permissions[] = Permission::create([
+            'slug' => 'role_show',
+            'label' => 'Role Read',
+        ]);
+
+        $permissions[] = Permission::create([
             'slug' => 'role_store',
             'label' => 'Role Create',
         ]);
@@ -72,6 +77,11 @@ class PermissionsTableSeeder extends Seeder
         $permissions[] = Permission::create([
             'slug' => 'user_index',
             'label' => 'User Query',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'user_search',
+            'label' => 'User Search',
         ]);
 
         $permissions[] = Permission::create([

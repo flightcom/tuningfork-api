@@ -3,13 +3,10 @@
 namespace Models;
 
 use Models\Extensions\LucyModel as Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 class Subscription extends Model
 {
-    use SoftDeletes;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -33,7 +30,6 @@ class Subscription extends Model
     protected $dates = [
         'start_date',
         'end_date',
-        'deleted_at',
     ];
 
     /**
@@ -41,9 +37,7 @@ class Subscription extends Model
      *
      * @var array
      */
-    protected $appends = [
-        'user',
-    ];
+    protected $appends = [];
 
     /**
      * Parent category of the instrument.
