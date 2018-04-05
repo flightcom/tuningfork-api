@@ -34,7 +34,9 @@ class Store extends Model
      *
      * @var array
      */
-    protected $appends = [
+    protected $appends = [];
+
+    protected $with = [
         'location',
     ];
 

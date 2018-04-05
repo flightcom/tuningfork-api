@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Utils\ExceptionLogger;
 use Models\Location;
-use Models\Station;
+use Models\Store;
 use Exception;
 use UsersManager;
 
-class StationsController extends Controller
+class StoresController extends Controller
 {
     /**
      * Create a new controller instance.
      */
     public function __construct()
     {
-        $this->middleware('RESTpermission:station');
+        $this->middleware('RESTpermission:store');
     }
 
     /**
@@ -33,24 +33,24 @@ class StationsController extends Controller
             $filter = isset($data['filter']) ? json_decode($data['filter']) : null;
             $sort = isset($data['sort']) ? json_decode($data['sort']) : null;
 
-            $stations = Station::query();
+            $stores = Store::query();
 
             if ($filter) {
                 foreach ($filter as $key => $value) {
-                    $stations->where($key, 'LIKE', "%$value%");
+                    $stores->where($key, 'LIKE', "%$value%");
                 }
             }
 
             if ($sort) {
                 list($field, $direction) = $sort;
-                $stations->orderBy($field, $direction);
+                $stores->orderBy($field, $direction);
             }
 
-            if (!$stations) {
-                return ExceptionLogger::apiReturnModelNotFound('station');
+            if (!$stores) {
+                return ExceptionLogger::apiReturnModelNotFound('store');
             }
 
-            return response()->json($stations->paginate($perPage), 200);
+            return response()->json($stores->paginate($perPage), 200);
         } catch (Exception $e) {
             ExceptionLogger::log($e);
 
@@ -68,13 +68,13 @@ class StationsController extends Controller
         $data = $request->all();
 
         try {
-            $stations = Station::all();
+            $stores = Store::all();
 
-            if (!$stations) {
-                return ExceptionLogger::apiReturnModelNotFound('station');
+            if (!$stores) {
+                return ExceptionLogger::apiReturnModelNotFound('store');
             }
 
-            return response()->json(['data' => $stations], 200);
+            return response()->json(['data' => $stores], 200);
         } catch (Exception $e) {
             ExceptionLogger::log($e);
 
@@ -92,10 +92,10 @@ class StationsController extends Controller
     public function show($id)
     {
         try {
-            $data =  Station::find($id);
+            $data =  Store::find($id);
 
             if (!$data) {
-                return ExceptionLogger::apiReturnModelNotFound('station');
+                return ExceptionLogger::apiReturnModelNotFound('store');
             }
 
             return response()->json($data, 200);
@@ -117,23 +117,23 @@ class StationsController extends Controller
     {
         try {
             $data = $request->all();
-            $station = Station::create([
+            $store = Store::create([
                 'name' => $data['name']
             ]);
 
-            if (!$station) {
-                return ExceptionLogger::apiReturnModelNotFound('station');
+            if (!$store) {
+                return ExceptionLogger::apiReturnModelNotFound('store');
             }
 
             // If location, save it
             if (array_key_exists('location', $data)) {
                 $location = Location::create($data['location']);
-                $station->location()->save($location);
+                $store->location()->save($location);
             }
 
-            $station->save();
+            $store->save();
 
-            return response()->json($station, 200);
+            return response()->json($store, 200);
         } catch (Exception $e) {
             ExceptionLogger::log($e);
 
@@ -159,27 +159,27 @@ class StationsController extends Controller
         $data = $request->all();
 
         try {
-            $station = Station::find($id);
+            $store = Store::find($id);
 
-            if (!$station) {
-                return $station;
+            if (!$store) {
+                return $store;
             }
 
-            $station->fill($data);
+            $store->fill($data);
 
             // If location, save it
             if (array_key_exists('location', $data)) {
-                $station->location->fill($data['location']);
-                $station->location->save();
+                $store->location->fill($data['location']);
+                $store->location->save();
             }
 
-            $station = $station->save();
+            $store = $store->save();
 
-            if (!$station) {
-                return ExceptionLogger::apiReturnModelNotFound('station');
+            if (!$store) {
+                return ExceptionLogger::apiReturnModelNotFound('store');
             }
 
-            return response()->json($station, 200);
+            return response()->json($store, 200);
         } catch (Exception $e) {
             ExceptionLogger::log($e);
 
@@ -190,17 +190,17 @@ class StationsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id Id of the station
+     * @param int $id Id of the store
      *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         try {
-            $data = Station::destroy($id);
+            $data = Store::destroy($id);
 
             if (!$data) {
-                return ExceptionLogger::apiReturnModelNotFound('station');
+                return ExceptionLogger::apiReturnModelNotFound('store');
             }
 
             return response()->json($data, 200);

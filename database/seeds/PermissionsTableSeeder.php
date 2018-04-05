@@ -168,6 +168,11 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
         $permissions[] = Permission::create([
+            'slug' => 'station_map',
+            'label' => 'Station Map',
+        ]);
+
+        $permissions[] = Permission::create([
             'slug' => 'station_store',
             'label' => 'Station Create',
         ]);
@@ -185,6 +190,37 @@ class PermissionsTableSeeder extends Seeder
         $permissions[] = Permission::create([
             'slug' => 'station_destroy',
             'label' => 'Station Delete',
+        ]);
+
+        // STORE permissions
+        $permissions[] = Permission::create([
+            'slug' => 'store_index',
+            'label' => 'Store Query',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'store_map',
+            'label' => 'Store Map',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'store_store',
+            'label' => 'Store Create',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'store_show',
+            'label' => 'Store Read',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'store_update',
+            'label' => 'Store Update',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'store_destroy',
+            'label' => 'Store Delete',
         ]);
 
         // BRAND permissions

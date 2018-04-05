@@ -239,21 +239,22 @@ return [
         /*
          * Application Aliases
          */
+        'ActionLogsManager' => Managers\System\ActionLogsManagerFacade::class,
+        'AdminViewsManager' => Managers\Views\AdminViewsManagerFacade::class,
         'AuthManager' => Managers\Authentication\AuthManagerFacade::class,
+        'CategoriesManager' => Managers\Categories\CategoriesManagerFacade::class,
+        'DevicesManager' => Managers\Devices\DevicesManagerFacade::class,
+        'ErrorsManager' => Managers\System\ErrorsManagerFacade::class,
+        'FilesManager' => Managers\Files\FilesManagerFacade::class,
+        'InstrumentsManager' => Managers\Instruments\InstrumentsManagerFacade::class,
+        'LoansManager' => Managers\Categories\LoansManagerFacade::class,
+        'NotificationsManager' => Managers\Notifications\NotificationsManagerFacade::class,
         'PasswordManager' => Managers\Authentication\PasswordManagerFacade::class,
         'PermissionsManager' => Managers\Authorization\PermissionsManagerFacade::class,
+        'PostsManager' => Managers\Posts\PostsManagerFacade::class,
+        'PushNotification' => Davibennun\LaravelPushNotification\Facades\PushNotification::class,
         'RolesManager' => Managers\Authorization\RolesManagerFacade::class,
         'UsersManager' => Managers\Users\UsersManagerFacade::class,
-        'FilesManager' => Managers\Files\FilesManagerFacade::class,
-        'DevicesManager' => Managers\Devices\DevicesManagerFacade::class,
-        'NotificationsManager' => Managers\Notifications\NotificationsManagerFacade::class,
-        'PushNotification' => Davibennun\LaravelPushNotification\Facades\PushNotification::class,
-        'AdminViewsManager' => Managers\Views\AdminViewsManagerFacade::class,
-        'ErrorsManager' => Managers\System\ErrorsManagerFacade::class,
-        'ActionLogsManager' => Managers\System\ActionLogsManagerFacade::class,
-        'PostsManager' => Managers\Posts\PostsManagerFacade::class,
-        'InstrumentsManager' => Managers\Instruments\InstrumentsManagerFacade::class,
-        'CategoriesManager' => Managers\Categories\CategoriesManagerFacade::class,
         // END OF APP ALIASES - DO NOT REMOVE/MODIFY THIS COMMENT
     ],
 ];

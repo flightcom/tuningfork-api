@@ -80,11 +80,20 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
         Route::get('instruments/{instrument}', 'InstrumentsController@show');
         Route::resource('instruments', 'InstrumentsController');
 
+        //////////////////////  LOAN  ///////////////////////
+        Route::resource('loans', 'LoanssController');
+
         ///////////////////  BRANDS  ////////////////////////
         Route::resource('brands', 'BrandsController');
 
+        ///////////////////  MAP  ///////////////////////////
+        Route::resource('map', 'MapController');
+
         ///////////////////  STATIONS  //////////////////////
         Route::resource('stations', 'StationsController');
+
+        ///////////////////  STORES  ////////////////////////
+        Route::resource('stores', 'StoresController');
 
         ///////////////////  CATEGORIES  ////////////////////
         Route::resource('categories', 'CategoriesController');
