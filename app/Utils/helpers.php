@@ -56,7 +56,7 @@ function activeRoute($route)
  *
  * @return Carbon\Carbon
  */
-function getMembershipEndDate($start_date = null)
+function getSubscriptionEndDate($start_date = null)
 {
     if (is_null($start_date)) {
         $start_date = date(DATE_ATOM);

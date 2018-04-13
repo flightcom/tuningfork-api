@@ -69,6 +69,8 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
 
     Route::group(['middleware' => 'api'], function () {
         //////////////////////  USER  ///////////////////////
+        Route::post('users/{user}/subscribe', 'UsersController@subscribe');
+        Route::post('users/{user}/unsubscribe', 'UsersController@unsubscribe');
         Route::put('users/{user}', 'UsersController@update');
         Route::get('users/{user}', 'UsersController@show');
         Route::resource('users', 'UsersController', [
@@ -81,7 +83,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.v1.', 'middleware' => ['cors']], fu
         Route::resource('instruments', 'InstrumentsController');
 
         //////////////////////  LOAN  ///////////////////////
-        Route::resource('loans', 'LoanssController');
+        Route::resource('loans', 'LoansController');
 
         ///////////////////  BRANDS  ////////////////////////
         Route::resource('brands', 'BrandsController');

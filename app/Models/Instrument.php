@@ -40,13 +40,16 @@ class Instrument extends Model
      * @var array
      */
     protected $appends = [
-        'brand',
-        'category',
         'categories',
         'category_ids',
-        // 'loans',
         'picture',
         'store',
+        'is_available',
+    ];
+
+    protected $with = [
+        'brand',
+        'category',
     ];
 
     /* The attributes that should be cast to native types.
@@ -65,22 +68,12 @@ class Instrument extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function getBrandAttribute()
-    {
-        return $this->brand()->first();
-    }
-
     /**
      * Category of the instrument.
      */
     public function category()
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function getCategoryAttribute()
-    {
-        return $this->category()->first();
     }
 
     public function getCategoryIdsAttribute()
@@ -161,5 +154,15 @@ class Instrument extends Model
     public function loans()
     {
         return $this->hasMany(Loan::class);
+    }
+
+    /**
+     * Checks if an instrument is currently on a loan
+     *
+     * @return boolean
+     */
+    public function getIsAvailableAttribute()
+    {
+        return $this->loans()->count() === 0;
     }
 }

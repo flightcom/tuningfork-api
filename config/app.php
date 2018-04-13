@@ -247,7 +247,7 @@ return [
         'ErrorsManager' => Managers\System\ErrorsManagerFacade::class,
         'FilesManager' => Managers\Files\FilesManagerFacade::class,
         'InstrumentsManager' => Managers\Instruments\InstrumentsManagerFacade::class,
-        'LoansManager' => Managers\Categories\LoansManagerFacade::class,
+        'LoansManager' => Managers\Loans\LoansManagerFacade::class,
         'NotificationsManager' => Managers\Notifications\NotificationsManagerFacade::class,
         'PasswordManager' => Managers\Authentication\PasswordManagerFacade::class,
         'PermissionsManager' => Managers\Authorization\PermissionsManagerFacade::class,

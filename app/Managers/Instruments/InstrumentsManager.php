@@ -43,15 +43,8 @@ class InstrumentsManager
             'comment' => $data['comment'] ?? null,
         ]);
 
-        if (array_key_exists('brand_id', $data)) {
-            $brand = Brand::find($data['brand_id']);
-            if ($brand) {
-                $instrument->brand()->associate($brand);
-            }
-        }
-
         // Brand
-        // Create new one if slug not exist
+        // Create new one if slug does not exist
         if (array_key_exists('brand', $data)) {
             $brand = Brand::where('slug', str_slug($data['brand']))->first();
             if (!$brand) {
@@ -150,6 +143,15 @@ class InstrumentsManager
             $instrument->category()->associate($category);
         }
 
+        // Brand
+        if (array_key_exists('brand_id', $data)) {
+            $brand = Brand::find($data['brand_id']);
+            if ($brand) {
+                $instrument->brand()->associate($brand);
+            }
+        }
+
+
         return $instrument->save();
     }
 
@@ -182,6 +184,9 @@ class InstrumentsManager
                 switch ($key) {
                     case 'brand':
                         $instruments->where('brand_id', $value->id)->get();
+                        break;
+                    case 'id':
+                        $instruments->where('id', $value)->get();
                         break;
                     case 'to_be_checked':
                         $instruments->where($key, $value);

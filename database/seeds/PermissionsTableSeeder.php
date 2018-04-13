@@ -105,8 +105,44 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
         $permissions[] = Permission::create([
+            'slug' => 'user_subscribe',
+            'label' => 'User Subscribe',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'user_unsubscribe',
+            'label' => 'User Unsubscribe',
+        ]);
+
+        $permissions[] = Permission::create([
             'slug' => 'user_destroy',
             'label' => 'User Delete',
+        ]);
+
+        // LOAN permissions
+        $permissions[] = Permission::create([
+            'slug' => 'loan_index',
+            'label' => 'Loan Query',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'loan_store',
+            'label' => 'Loan Create',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'loan_show',
+            'label' => 'Loan Read',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'loan_update',
+            'label' => 'Loan Update',
+        ]);
+
+        $permissions[] = Permission::create([
+            'slug' => 'loan_destroy',
+            'label' => 'Loan Delete',
         ]);
 
         // INSTRUMENT permissions

@@ -54,7 +54,20 @@ class User extends Authenticatable
      */
     protected $appends = [
         'avatar',
+        'full_name',
         'has_subscribed',
+        'has_active_loan',
+    ];
+
+    /**
+     * The relations that should be appended when the model is called.
+     *
+     * @var array
+     */
+    protected $with = [
+        // 'loans',
+        'location',
+        'subscriptions',
     ];
 
     /**
@@ -87,6 +100,16 @@ class User extends Authenticatable
         $avatar = $this->avatar()->first();
 
         return $avatar ? $avatar->local_path : null;
+    }
+
+    /**
+     * Full name of user
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 
     /**
@@ -129,11 +152,29 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function loans()
+    {
+        return $this->hasMany(Loan::class);
+    }
+
+    /**
+     * Getter has_subscribed
+     *
+     * @return boolean
+     */
     public function getHasSubscribedAttribute()
     {
         return $this->hasActiveSubscription();
     }
 
+    /**
+     * Checks if user has subscribed (= paid his annual fee)
+     *
+     * @return boolean
+     */
     public function hasActiveSubscription()
     {
         $subscriptions = $this->subscriptions;
@@ -144,5 +185,29 @@ class User extends Authenticatable
         }
 
         return false;
+    }
+
+    /**
+     * Checks if user has subscribed (= paid his annual fee)
+     *
+     * @return boolean
+     */
+    public function getActiveSubscription()
+    {
+        $subscription = $this->subscriptions()->where([
+            ['starts_at', '<', Carbon::now()],
+            ['ends_at', '>', Carbon::now()],
+        ])->first();
+
+        return $subscription ?? null;
+    }
+
+    public function getHasActiveLoanAttribute()
+    {
+        return $this->loans()->where([
+            ['starts_at', '<', Carbon::now()],
+            ['ends_at', '>', Carbon::now()],
+            ['ended_at', 'IS', 'NULL']
+        ])->count() > 0;
     }
 }

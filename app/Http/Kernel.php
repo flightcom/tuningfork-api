@@ -58,5 +58,6 @@ class Kernel extends HttpKernel
         'RESTpermission' => \App\Http\Middleware\RESTPermission::class,
         'permission' => \App\Http\Middleware\Permission::class,
         'own' => \App\Http\Middleware\OwnerPermission::class,
+        'Admin' => \App\Http\Middleware\Admin::class,
     ];
 }

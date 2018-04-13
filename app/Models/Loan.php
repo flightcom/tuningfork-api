@@ -4,6 +4,7 @@ namespace Models;
 
 use Models\Extensions\LucyModel as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Loan extends Model
 {
@@ -47,6 +48,15 @@ class Loan extends Model
      * @var array
      */
     protected $appends = [
+        'is_active',
+    ];
+
+    /**
+     * The relations that should be appended when the model is called.
+     *
+     * @var array
+     */
+    protected $with = [
         'user',
         'instrument',
     ];
@@ -64,19 +74,28 @@ class Loan extends Model
      */
     public function instrument()
     {
-        return $this->hasOne(Instrument::class);
+        return $this->belongsTo(Instrument::class);
     }
 
     /**
-     * This function is called automatically to encrypt The password.
+     * Loan status
      *
-     * @param $password
+     * @param $status
      */
     public function setStatusAttribute($status)
     {
         if (!$status) {
             $this->attributes['status'] = config('constants.default_loan_status');
         }
+    }
+
+    /**
+     * Is the loan active ?
+     *
+     */
+    public function getIsActiveAttribute()
+    {
+        $this->attributes['is_active'] = $this->isActive();
     }
 
     /**

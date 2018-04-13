@@ -21,7 +21,7 @@ class SubscriptionsTableSeeder extends Seeder
             $date = $faker->date('Y-m-d H:i:s');
             Subscription::create([
                 'starts_at' => $date,
-                'ends_at' => getMembershipEndDate($date),
+                'ends_at' => getSubscriptionEndDate($date),
                 'user_id' => $users->get($index)->id,
             ]);
         }

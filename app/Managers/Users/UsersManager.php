@@ -3,9 +3,11 @@
 namespace Managers\Users;
 
 use App\Notifications\UserCreated;
+use Carbon\Carbon;
 use Models\Location;
-use Models\User;
 use Models\Role;
+use Models\Subscription;
+use Models\User;
 use FilesManager;
 
 class UsersManager
@@ -91,7 +93,7 @@ class UsersManager
      */
     public function show($id)
     {
-        return User::find($id)->load('location', 'roles');
+        return User::find($id)->load('roles');
     }
 
     /**
@@ -171,7 +173,16 @@ class UsersManager
 
         if ($filter) {
             foreach ($filter as $key => $value) {
-                $users->where($key, 'LIKE', "%$value%");
+                switch ($key) {
+                    case 'has_subscribed':
+                        $users = $users->filter(function ($v, $k) {
+                            return $v->has_subscribed === $value;
+                        });
+                        break;
+                    case 'STATUS':
+                        $users->where($key, 'LIKE', "%$value%");
+                        break;
+                }
             }
         }
 
@@ -181,5 +192,40 @@ class UsersManager
         }
 
         return $users->paginate($perPage);
+    }
+
+    public function subscribe($data, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return $user;
+        }
+
+        $subscription = new Subscription();
+        $subscription->starts_at = new Carbon($data['starts_at']);
+        $subscription->ends_at = getSubscriptionEndDate($data['starts_at']);
+        $subscription->user()->associate($user);
+        $subscription->save();
+
+        return $user;
+    }
+
+    public function unsubscribe($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return $user;
+        }
+
+        $subscription = $user->getActiveSubscription();
+        if ($subscription) {
+            error_log(print_r(get_class($subscription), true));
+            $subscription->ends_at = Carbon::now();
+            $subscription->save();
+        }
+
+        return $user;
     }
 }
