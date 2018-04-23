@@ -173,15 +173,15 @@ class UsersManager
 
         if ($filter) {
             foreach ($filter as $key => $value) {
+                if (in_array($key, ['has_subscribed'])) {
+                    continue;
+                }
                 switch ($key) {
-                    case 'has_subscribed':
-                        $users = $users->filter(function ($v, $k) {
-                            return $v->has_subscribed === $value;
-                        });
-                        break;
                     case 'STATUS':
                         $users->where($key, 'LIKE', "%$value%");
                         break;
+                    default:
+                        $users->where($key, 'LIKE', "%$value%");
                 }
             }
         }
@@ -190,6 +190,20 @@ class UsersManager
             list($field, $direction) = $sort;
             $users->orderBy($field, $direction);
         }
+
+        if ($filter) {
+            foreach ($filter as $key => $value) {
+                switch ($key) {
+                    case 'has_subscribed':
+                        $users = $users->get()->filter(function ($v, $k) use ($value) {
+                            error_log('hehe ' . $value);
+                            return $v->has_subscribed === $value;
+                        });
+                        break;
+                }
+            }
+        }
+
 
         return $users->paginate($perPage);
     }

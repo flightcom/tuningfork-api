@@ -44,12 +44,16 @@ class UserCreated extends Notification
         $tokenLength = config('constants.password_token_length');
         $token = Token::getToken($tokenLength);
 
+        error_log('token: '.$token);
+
         return (new MailMessage())
-            ->line('Bienvenue sur l\'instrumentèque !')
+            ->subject(__('email.user_created_confirmation_title'))
+            ->line(__('email.user_created_confirmation_greetings'))
             ->line('Votre compte vient d\'être créé. Veuillez suivre le lien suivant pour confirmer votre adresse courriel :')
             ->action(
                 'Confirmer mon adresse courriel',
-                "$appUrl/confirm/$token/?email=".$this->user->email);
+                "$appUrl/confirm/$token/?email=".$this->user->email
+            );
     }
 
     /**

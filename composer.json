@@ -12,7 +12,8 @@
         "davibennun/laravel-push-notification": "dev-laravel5",
         "doctrine/dbal": "~2.5",
         "webpatser/laravel-uuid": "~2.0",
-        "barryvdh/laravel-cors": "0.11.0"
+        "barryvdh/laravel-cors": "0.11.0",
+        "guzzlehttp/guzzle": "6.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
