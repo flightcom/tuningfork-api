@@ -40,4 +40,28 @@ class RolesController extends Controller
             return response()->json($e->getMessage(), 500);
         }
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $user The user id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        try {
+            $data =  Role::find($id);
+
+            if (!$data) {
+                return ExceptionLogger::apiReturnModelNotFound('role');
+            }
+
+            return response()->json($data, 200);
+        } catch (Exception $e) {
+            ExceptionLogger::log($e);
+
+            return response()->json($e->getMessage(), 500);
+        }
+    }
 }

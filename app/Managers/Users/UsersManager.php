@@ -136,7 +136,9 @@ class UsersManager
             $user->assignRole($role);
         }
 
-        return $user->save();
+        $user->save();
+
+        return $user;
     }
 
     /**
